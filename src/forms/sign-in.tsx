@@ -11,7 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import z, { email } from "zod";
+import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useForm } from "react-hook-form";
@@ -20,38 +20,28 @@ import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 
-const SignUpSchema = z
-  .object({
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z
-      .string()
-      .min(6, "Password must be at least 6 characters"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
 
-type SignUpFormValues = z.infer<typeof SignUpSchema>;
+type LoginFormValues = z.infer<typeof loginSchema>;
 
-export default function Page() {
+export default function SignInForm() {
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
 
-  const form = useForm<SignUpFormValues>({
-    resolver: zodResolver(SignUpSchema),
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
-  const onSubmit = async (data: SignUpFormValues) => {
-    await authClient.signUp.email(
+  const onSubmit = async (data: LoginFormValues) => {
+    await authClient.signIn.email(
       {
-        name: data.email,
         email: data.email,
         password: data.password,
         callbackURL: "/",
@@ -71,16 +61,16 @@ export default function Page() {
   };
 
   return (
-    <section className="flex flex-col items-center  justify-center min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent   ">
+    <section className="flex flex-col items-center justify-center  min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent  ">
       <div className="p-6  max-w-md w-full">
         <div>
           <Link href="/" aria-label="go home">
             Logo
           </Link>
           <h1 className="mb-1 mt-4 text-xl font-semibold">
-            Sign Up to Tailark
+            Sign In to Tailark
           </h1>
-          <p>Get started! Sign up to continue</p>
+          <p>Welcome back! Sign in to continue</p>
         </div>
 
         <div className="mt-6">
@@ -154,30 +144,6 @@ export default function Page() {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    htmlFor="confirmPassword"
-                    className="block text-sm mt-2"
-                  >
-                    Confirm Password
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      required
-                      id="confirmPassword"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <Button type="submit" disabled={isPending} className="w-full mt-4 ">
               Continue
             </Button>
@@ -186,9 +152,9 @@ export default function Page() {
       </div>
 
       <p className="text-accent-foreground text-center text-sm">
-        Already have an account ?
+        Don't have an account ?
         <Button asChild variant="link" className="px-2">
-          <Link href="/auth/sign-in">Sign in </Link>
+          <Link href="/auth/sign-up">Create account</Link>
         </Button>
       </p>
     </section>
