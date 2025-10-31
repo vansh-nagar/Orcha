@@ -17,7 +17,13 @@ const Page = () => {
     })
   );
 
-  const textai = useMutation(trpc.textai.mutationOptions());
+  const testai = useMutation(
+    trpc.testai.mutationOptions({
+      onSuccess: () => {
+        toast.success("AI executed successfully!");
+      },
+    })
+  );
 
   return (
     <div>
@@ -32,12 +38,11 @@ const Page = () => {
       </Button>
       <Button
         onClick={() => {
-          textai.mutate();
+          testai.mutate();
         }}
       >
         test ai
       </Button>
-      {textai.data}
     </div>
   );
 };

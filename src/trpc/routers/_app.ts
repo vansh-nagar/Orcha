@@ -1,18 +1,14 @@
 import { createTRPCRouter, protectedProcedure } from "../init";
 import prisma from "@/lib/prisma";
 import { inngest } from "@/inngest/client";
-import { generateText } from "ai";
-import { groq } from "@ai-sdk/groq";
 
 export const appRouter = createTRPCRouter({
-  textai: protectedProcedure.mutation(async () => {
-    const res = await generateText({
-      model: groq("openai/gpt-oss-120b"),
-      prompt: `Give me a short summary about the history of Rome.`,
+  testai: protectedProcedure.mutation(async () => {
+    await inngest.send({
+      name: "execute.ai",
     });
 
-    console.log(res.text);
-    return res.text;
+    return { success: true };
   }),
   getWorkFlow: protectedProcedure.query((ctx) => {
     console.log("User ID:", ctx.ctx.auth.user.id);
