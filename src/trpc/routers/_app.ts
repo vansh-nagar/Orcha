@@ -1,6 +1,7 @@
 import { createTRPCRouter, protectedProcedure } from "../init";
 import prisma from "@/lib/prisma";
 import { inngest } from "@/inngest/client";
+import { TRPCError } from "@trpc/server";
 
 export const appRouter = createTRPCRouter({
   testai: protectedProcedure.mutation(async () => {

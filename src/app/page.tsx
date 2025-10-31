@@ -14,6 +14,9 @@ const Page = () => {
       onSuccess: () => {
         toast.success("Workflow queued successfully!");
       },
+      onError: () => {
+        toast.error("Failed to queue workflow.");
+      },
     })
   );
 
@@ -21,6 +24,9 @@ const Page = () => {
     trpc.testai.mutationOptions({
       onSuccess: () => {
         toast.success("AI executed successfully!");
+      },
+      onError: () => {
+        toast.error("Failed to queue workflow.");
       },
     })
   );
