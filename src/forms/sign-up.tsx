@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import Image from "next/image";
 
 const SignUpSchema = z
   .object({
@@ -74,12 +75,21 @@ export default function SignUpForm() {
     <section className="flex flex-col items-center  justify-center min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent   ">
       <div className="p-6  max-w-md w-full">
         <div>
-          <Link href="/" aria-label="go home">
-            Logo
-          </Link>
-          <h1 className="mb-1 mt-4 text-xl font-semibold">
-            Sign Up to Tailark
-          </h1>
+          <Image
+            className=" invert dark:block hidden"
+            src="/logo/logo1.svg"
+            alt="ORHCA"
+            width={120}
+            height={40}
+          />
+          <Image
+            className="dark:hidden block"
+            src="/logo/logo1.svg"
+            alt="ORHCA"
+            width={120}
+            height={40}
+          />
+          <h1 className="mb-1 mt-4 text-xl font-semibold">Sign Up to ORCHA</h1>
           <p>Get started! Sign up to continue</p>
         </div>
 
@@ -188,7 +198,7 @@ export default function SignUpForm() {
       <p className="text-accent-foreground text-center text-sm">
         Already have an account ?
         <Button asChild variant="link" className="px-2">
-          <Link href="/auth/sign-in">Sign in </Link>
+          <Link href="/sign-in">Sign in </Link>
         </Button>
       </p>
     </section>
