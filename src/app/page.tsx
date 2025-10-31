@@ -17,6 +17,8 @@ const Page = () => {
     })
   );
 
+  const textai = useMutation(trpc.textai.mutationOptions());
+
   return (
     <div>
       {JSON.stringify(data)}
@@ -28,6 +30,14 @@ const Page = () => {
       >
         create flow
       </Button>
+      <Button
+        onClick={() => {
+          textai.mutate();
+        }}
+      >
+        test ai
+      </Button>
+      {textai.data}
     </div>
   );
 };
